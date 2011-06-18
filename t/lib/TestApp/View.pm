@@ -1,6 +1,6 @@
 package TestApp::View;
 use 5.12.0;
-use Soffritto::View;
+use Soffritto::Web::Markup;
 
 template 'hello' => sub {
     my ($class, $stash) = @_;
