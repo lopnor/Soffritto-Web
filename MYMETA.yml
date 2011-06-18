@@ -1,0 +1,32 @@
+---
+abstract: 'simple web framework for Soffritto Inc.'
+author:
+  - 'Nobuo Danjou <nobuo.danjou@gmail.com>'
+build_requires:
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+distribution_type: module
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.57_05'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Soffritto-Web
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  DBD::SQLite: 0
+  DBI: 0
+  Encode: 0
+  HTTP::Status: 0
+  Plack: 0.9980
+  SQL::Abstract::Limit: 0
+  Scalar::Util: 0
+  Try::Tiny: 0
+  URI::WithBase: 0
+  perl: 5.012
+version: 0.01

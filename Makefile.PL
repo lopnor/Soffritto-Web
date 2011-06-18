@@ -1,13 +1,24 @@
-use inc::Module::Install;
-name 'Soffritto-Web';
-all_from 'lib/Soffritto/Web.pm';
+#!perl
+use strict;
+use warnings;
+use ExtUtils::MakeMaker;
 
-# requires '';
-
-tests 't/*.t';
-author_tests 'xt';
-
-test_requires 'Test::More';
-auto_set_repository;
-auto_include;
-WriteAll;
+WriteMakefile(
+	NAME => 'Soffritto-Web',
+	AUTHOR => 'Nobuo Danjou <nobuo.danjou@gmail.com>',
+	VERSION_FROM => 'lib/Soffritto/Web.pm',
+	ABSTRACT_FROM => 'lib/Soffritto/Web.pm',
+	LICENSE => 'perl',
+    MIN_PERL_VERSION => 5.012000,
+	PREREQ_PM => {
+        Plack => '0.9980',
+        DBI => 0,
+        'DBD::SQLite' => 0,
+        'SQL::Abstract::Limit' => 0,
+        Encode => 0,
+        'Scalar::Util' => 0,
+        'Try::Tiny' => 0,
+        'HTTP::Status' => 0,
+        'URI::WithBase' => 0,
+	},
+);
