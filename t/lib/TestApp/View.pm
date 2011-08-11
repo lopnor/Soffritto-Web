@@ -1,5 +1,6 @@
 package TestApp::View;
 use 5.12.0;
+use parent 'Soffritto::Web::View';
 use Soffritto::Web::Markup;
 
 template 'hello' => sub {

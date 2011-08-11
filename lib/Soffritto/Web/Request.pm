@@ -1,6 +1,7 @@
 package Soffritto::Web::Request;
 use 5.12.0;
 use parent 'Plack::Request';
+use Plack::Session;
 use HTTP::Status;
 use Encode ();
 use URI::WithBase;
@@ -13,6 +14,8 @@ sub uri_for {
     };
     return $uri->abs;
 }
+
+sub session { Plack::Session->new(shift->env) }
 
 sub redirect_to {
     my ($self, @args) = @_;

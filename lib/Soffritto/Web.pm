@@ -5,10 +5,9 @@ use Encode;
 use Plack::Response;
 use Plack::Util;
 use Plack::Util::Accessor qw(dsn db view);
-use Scalar::Util;
+use Scalar::Util 'blessed';
 use Soffritto::DB;
 use Soffritto::Web::Request;
-use Try::Tiny;
 
 our $VERSION = 0.01;
 
@@ -20,9 +19,9 @@ sub prepare_app {
         $self->db($db);
     }
     unless ($self->view) {
-        my $basename = Scalar::Util::blessed($self);
+        my $basename = blessed($self);
         if (my $class = eval {Plack::Util::load_class('View', $basename)}) {
-            $self->view($class);
+            $self->view($class->new);
         }
     }
     $self->prepare;
@@ -31,12 +30,32 @@ sub prepare_app {
 sub prepare {}
 
 sub call {
-    my $self = shift;
-    my $req = Soffritto::Web::Request->new(shift);
+    my ($self, $req) = @_;
+    unless (blessed($req)) {
+        $req = Soffritto::Web::Request->new($req);
+    }
     my ($handler, @args) = $self->dispatch($req);
-    my $res = $handler ? $self->$handler($req, @args) 
-                        : $self->error(404);
-    return $res->finalize;
+    my $res;
+    if (! $handler) {
+        $res = $self->error(404);
+    } elsif (ref($handler) eq 'CODE') {
+        $res = $self->$handler($req, @args);
+    } elsif (!ref($handler)) {
+        Plack::Util::load_class($handler);
+        $res = $handler->new(
+            db => $self->db,
+            view => $self->view,
+        )->call($req);
+    } elsif (blessed($handler) eq 'Plack::Response') {
+        $res = $handler;
+    } else {
+        $res = $self->error(500);
+    }
+    if (blessed($res) eq 'Plack::Response') {
+        return $res->finalize;
+    } else {
+        return $res;
+    }
 }
 
 sub dispatch { ... }

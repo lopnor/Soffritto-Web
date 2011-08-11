@@ -2,7 +2,7 @@ package TestApp;
 use 5.12.0;
 use parent 'Soffritto::Web';
 
-sub dispatch { 'hello' }
+sub dispatch { \&hello }
 
 sub hello {
     my ($self, $req) = @_;

@@ -22,10 +22,11 @@ BEGIN { use_ok 'Soffritto::Web'; }
 
         sub dispatch {
             my ($self, $req) = @_;
-            if ($req->path_info =~ m{^/hello/(?<name>.+)$}) {'hello', $+{name}}
-            elsif ($req->path_info =~ m{^/goodbye/(?<name>.+)$}) {
+            if ($req->path_info =~ m{^/hello/(?<name>.+)$}) {
+                return (\&hello, $+{name});
+            } elsif ($req->path_info =~ m{^/goodbye/(?<name>.+)$}) {
                 my $name = $+{name};
-                sub { shift->respond("goodbye, $name!") }
+                return (sub { shift->respond("goodbye, $name!") });
             }
         }
 
