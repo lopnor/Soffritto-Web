@@ -12,6 +12,7 @@ WriteMakefile(
     MIN_PERL_VERSION => 5.012000,
 	PREREQ_PM => {
         Plack => '0.9980',
+        'Plack::Session' => 0,
         DBI => 0,
         'DBD::SQLite' => 0,
         'SQL::Abstract::Limit' => 0,
