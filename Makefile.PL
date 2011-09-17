@@ -21,5 +21,7 @@ WriteMakefile(
         'Try::Tiny' => 0,
         'HTTP::Status' => 0,
         'URI::WithBase' => 0,
+        'HTML::Shakan' => 0,
+        'Digest::SHA1' => 0,
 	},
 );
